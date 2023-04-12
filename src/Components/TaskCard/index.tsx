@@ -14,26 +14,36 @@ export default function TaskCard({ id, title, created_at, description, status }:
 
       <div className="w-full flex items-center justify-between max-[768px]:flex-col ">
 
-        <div className="w-auto flex items-center justify-start max-[768px]:justify-between max-[768px]:w-full max-[425px]:flex-col max-[425px]:items-start">
-          <span className="w-9/12 font-bold line-clamp-1 overflow max-[425px]:w-full max-[425px]:line-clamp-2" >{title}</span>
-          <span className=" flex items-center text-right pl-4 font-bold  max-[425px]:pl-0 max-[425px]:mt-4"><Circle size={16} />{status}</span>
+        <div className="w-3/5 flex items-center justify-start max-[768px]:justify-between max-[768px]:w-full max-[425px]:flex-col max-[425px]:items-start">
+          <span className="w-full font-bold line-clamp-1 overflow max-[425px]:w-full max-[425px]:line-clamp-2" >
+            {title}
+          </span>
         </div>
 
-        <div className="w-44 flex items-center justify-between max-[768px]:mt-4 max-[768px]:w-full ">
-          <span className="font-bold">{created_at}</span>
-          <div className="w-16 flex items-center justify-between ">
+        <div className="w-2/5 flex items-center justify-between max-[768px]:mt-4 max-[768px]:w-full ">
+          <span className=" w-32 flex items-center text-right text-sm pl-4 max-[768px]:pl-0">
+            <Circle size={16} />
+            {status}
+          </span>
+          <span className="text-sm">
+            {created_at}
+          </span>
+
+          <div className="w-12 flex items-center justify-between">
             <button>
-              <Pencil size={28} />
+              <Pencil size={16} />
             </button>
             <button>
-              <Trash size={28} />
+              <Trash size={16} />
             </button>
           </div>
         </div>
 
       </div>
 
-      <span className="h-auto mt-4 text-sm border-t-2 pt-4 break-all">{description}</span>
+      <span className="h-auto mt-4 text-sm border-t-2 pt-4 break-all">
+        {description}
+      </span>
 
     </div>
   )
