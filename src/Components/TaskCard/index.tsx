@@ -1,4 +1,5 @@
-import { Circle, Pencil, Trash } from "@phosphor-icons/react";
+import { ArrowSquareOut, Circle } from "@phosphor-icons/react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface TaskCardprops {
   id?: string;
@@ -9,6 +10,15 @@ interface TaskCardprops {
 }
 
 export default function TaskCard({ id, title, created_at, description, status }: TaskCardprops) {
+
+  const navigate = useNavigate()
+  const localtion = useLocation()
+
+
+  const goToTaskPage = () => {
+    navigate('/task')
+  }
+
   return (
     <div className="w-full flex flex-col rounded-lg p-4 border-2 border-sky-600 text-gray-700 shadow-lg max-[425px]:text-sm ">
 
@@ -21,7 +31,7 @@ export default function TaskCard({ id, title, created_at, description, status }:
         </div>
 
         <div className="w-2/5 flex items-center justify-between max-[768px]:mt-4 max-[768px]:w-full ">
-          <span className=" w-32 flex items-center text-right text-sm pl-4 max-[768px]:pl-0">
+          <span className=" w-32 h-6 flex items-center text-right text-sm pl-4 max-[768px]:pl-0">
             <Circle size={16} />
             {status}
           </span>
@@ -29,13 +39,15 @@ export default function TaskCard({ id, title, created_at, description, status }:
             {created_at}
           </span>
 
-          <div className="w-12 flex items-center justify-between">
-            <button>
-              <Pencil size={16} />
+          <div className="w-auto h-6 flex items-center max-[320px]:w-9">
+            <button onClick={goToTaskPage}>
+              {localtion.pathname === '/' ?
+                <ArrowSquareOut size={18} />
+                :
+                ""
+              }
             </button>
-            <button>
-              <Trash size={16} />
-            </button>
+
           </div>
         </div>
 
