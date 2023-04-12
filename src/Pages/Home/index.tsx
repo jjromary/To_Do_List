@@ -1,11 +1,14 @@
 import TaskCard from "../../Components/TaskCard";
 import TaskCreator from "../../Components/TaskCreator";
+import TaskFilter from "./components/TaskFilter";
 import TaskList from "./components/TaskList";
 
 export default function Home() {
   return (
     <>
       <TaskCreator />
+
+      <TaskFilter />
 
       <TaskList>
 

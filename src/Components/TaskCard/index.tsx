@@ -10,7 +10,7 @@ interface TaskCardprops {
 
 export default function TaskCard({ id, title, created_at, description, status }: TaskCardprops) {
   return (
-    <div className="w-full flex flex-col rounded-lg p-4 border-2 border-sky-600 text-gray-700 max-[425px]:text-sm">
+    <div className="w-full flex flex-col rounded-lg p-4 border-2 border-sky-600 text-gray-700 shadow-lg max-[425px]:text-sm ">
 
       <div className="w-full flex items-center justify-between max-[768px]:flex-col ">
 
@@ -41,7 +41,7 @@ export default function TaskCard({ id, title, created_at, description, status }:
 
       </div>
 
-      <span className="h-auto mt-4 text-sm border-t-2 pt-4 break-all">
+      <span className="h-auto mt-4 text-sm border-t-2 pt-4 break-words">
         {description}
       </span>
 
