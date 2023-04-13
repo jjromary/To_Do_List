@@ -1,9 +1,31 @@
+import moment from "moment";
+import { useContext } from "react";
 import TaskCard from "../../Components/TaskCard";
 import TaskCreator from "../../Components/TaskCreator";
+import { Task, TaskContext } from "../../Contexts/TasksContext";
 import TaskFilter from "./components/TaskFilter";
 import TaskList from "./components/TaskList";
 
 export default function Home() {
+  const { task } = useContext(TaskContext)
+
+  const dateFormat = (newDate: string) => {
+    newDate = moment().locale('pt-br').format('DD/MM/YYYY')
+
+    return newDate
+  }
+
+  function sortByDate(tasks: Task[]) {
+    return tasks.map(task => ({ ...task, created_at: new Date(task.created_at) }))
+      .sort((a, b) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+        return dateB.getTime() - dateA.getTime();
+      });
+  }
+
+  const orderTaksByDate = sortByDate(task)
+
   return (
     <>
       <TaskCreator />
@@ -12,37 +34,19 @@ export default function Home() {
 
       <TaskList>
 
-        <TaskCard
-          title="Estudar pra ter uma perspetiva de vida melhor Estudar pra ter uma perspetiva de vida melhorEstudar pra ter uma perspetiva de vida melhor"
-          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
-          status="Em andamento"
-          created_at="11/04/2023"
-        />
-        <TaskCard
-          title="Levar paçoca no veterinário"
-          description="Estude! Mas n estude pra se matar! Estude! Mas n estude pra se matar! Estude! Mas n estude pra se matar! Estude! Mas n estude pra se matar!"
-          status="Pendente"
-          created_at="11/04/2023"
-        />
-        <TaskCard
-          title="Lavar o banheiro"
-          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
-          status="Concluído"
-          created_at="11/04/2023"
-        />
-        <TaskCard
-          title="Lavar o banheiro"
-          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
-          status="Concluído"
-          created_at="11/04/2023"
-        />
-        <TaskCard
-          title="Lavar o banheiro"
-          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
-          status="Concluído"
-          created_at="11/04/2023"
-        />
 
+        {orderTaksByDate.map((taskItem) => {
+          return (
+            <TaskCard
+              key={taskItem.id}
+              id={taskItem.id}
+              title={taskItem.title}
+              description={taskItem.description}
+              status={taskItem.status}
+              created_at={dateFormat(String(taskItem.created_at))}
+            />
+          )
+        })}
 
       </TaskList>
 

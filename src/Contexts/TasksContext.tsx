@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode, SetStateAction, createContext, useState } from "react";
 
-interface Task {
+export interface Task {
   id: string;
   title: string;
   description: string;
@@ -21,6 +21,7 @@ export const TaskContext = createContext({} as TraskContextType)
 
 export function TaskProvider({ children }: taskProviderProps) {
   const [task, setTask] = useState<Task[]>([])
+
 
 
   return (

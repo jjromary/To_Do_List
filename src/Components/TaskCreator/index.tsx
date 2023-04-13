@@ -8,14 +8,6 @@ import * as zod from 'zod';
 import { TaskContext } from '../../Contexts/TasksContext';
 import Button from "../Button";
 
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  status: string;
-  created_at: string;
-}
-
 const newTaskValidationSchema = zod.object({
   id: zod.string(),
   title: zod.string().min(3, 'Título precisa ter no mínimo 3 caracteres'),
@@ -24,6 +16,7 @@ const newTaskValidationSchema = zod.object({
   created_at: zod.string()
 })
 
+
 type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
 export default function TaskCreator() {
@@ -31,9 +24,8 @@ export default function TaskCreator() {
 
   const handleCreateNewTask = (data: newPostFormData) => {
 
-    data.created_at = moment().locale('pt-br').format('DD/MM/YYYY')
+    data.created_at = moment().format();
     data.id = uuidv4()
-
 
     setTask([...task, data])
   }
@@ -46,6 +38,7 @@ export default function TaskCreator() {
   const recoverTasksLocalStorage = () => {
     const recover = localStorage.getItem('keyTask')
     const recoverToJson = JSON.parse(recover!)
+
     setTask(recoverToJson)
   }
 
