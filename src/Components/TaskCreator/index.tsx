@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 import * as zod from 'zod';
+import { TaskContext } from '../../Contexts/TasksContext';
 import Button from "../Button";
 
 interface Task {
@@ -26,13 +27,15 @@ const newTaskValidationSchema = zod.object({
 type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
 export default function TaskCreator() {
-  const [task, setTask] = useState<Task[]>([])
+  const { task, setTask } = useContext(TaskContext)
 
   const handleCreateNewTask = (data: newPostFormData) => {
+
     data.created_at = moment().locale('pt-br').format('DD/MM/YYYY')
     data.id = uuidv4()
 
-    setTask([...task, data]);
+
+    setTask([...task, data])
   }
   console.log("Task:", task)
 
@@ -40,7 +43,7 @@ export default function TaskCreator() {
     localStorage.setItem('keyTask', JSON.stringify(task));
   }
 
-  const recoverDataLocalStorage = () => {
+  const recoverTasksLocalStorage = () => {
     const recover = localStorage.getItem('keyTask')
     const recoverToJson = JSON.parse(recover!)
     setTask(recoverToJson)
@@ -58,7 +61,9 @@ export default function TaskCreator() {
   })
 
   useEffect(() => {
-    recoverDataLocalStorage()
+    if (localStorage.getItem('keyTask')) {
+      recoverTasksLocalStorage()
+    }
   }, [])
 
   useEffect(() => {
