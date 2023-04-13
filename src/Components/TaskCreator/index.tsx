@@ -15,7 +15,6 @@ interface Task {
   created_at: string;
 }
 
-
 const newTaskValidationSchema = zod.object({
   id: zod.string(),
   title: zod.string().min(3, 'Título precisa ter no mínimo 3 caracteres'),
@@ -34,9 +33,18 @@ export default function TaskCreator() {
     data.id = uuidv4()
 
     setTask([...task, data]);
-
   }
-  console.log("taks inserida", task)
+  console.log("Task:", task)
+
+  const saveTaskLocalStorage = () => {
+    localStorage.setItem('keyTask', JSON.stringify(task));
+  }
+
+  const recoverDataLocalStorage = () => {
+    const recover = localStorage.getItem('keyTask')
+    const recoverToJson = JSON.parse(recover!)
+    setTask(recoverToJson)
+  }
 
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: zodResolver(newTaskValidationSchema),
@@ -50,6 +58,10 @@ export default function TaskCreator() {
   })
 
   useEffect(() => {
+    recoverDataLocalStorage()
+  }, [])
+
+  useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset({
         title: '',
@@ -58,6 +70,7 @@ export default function TaskCreator() {
         id: '',
         created_at: '',
       });
+      saveTaskLocalStorage()
     }
   }, [formState, reset]);
 
