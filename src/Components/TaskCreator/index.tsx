@@ -73,7 +73,7 @@ export default function TaskCreator() {
 
 
   return (
-    <div className="w-full min-w-[275px] h-auto mt-8 p-4 border-1 rounded-lg border-solid border-2 border-sky-600">
+    <div className="w-full min-w-[275px] h-auto mt-8 p-4 border-1 rounded-lg border-solid border-2 border-sky-600 ">
 
       <form onSubmit={handleSubmit(handleCreateNewTask)}>
 
