@@ -29,7 +29,6 @@ export default function TaskCreator() {
 
     setTask([...task, data])
   }
-  console.log("Task:", task)
 
   const saveTaskLocalStorage = () => {
     localStorage.setItem('keyTask', JSON.stringify(task));

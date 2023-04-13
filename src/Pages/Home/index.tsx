@@ -1,13 +1,14 @@
 import moment from "moment";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import TaskCard from "../../Components/TaskCard";
 import TaskCreator from "../../Components/TaskCreator";
 import { Task, TaskContext } from "../../Contexts/TasksContext";
 import TaskFilter from "./components/TaskFilter";
 import TaskList from "./components/TaskList";
 
+
 export default function Home() {
-  const { task } = useContext(TaskContext)
+  const { task, filterStatus } = useContext(TaskContext)
 
   const dateFormat = (newDate: string) => {
     newDate = moment().locale('pt-br').format('DD/MM/YYYY')
@@ -15,7 +16,7 @@ export default function Home() {
     return newDate
   }
 
-  function sortByDate(tasks: Task[]) {
+  const sortByDate = (tasks: Task[]) => {
     return tasks.map(task => ({ ...task, created_at: new Date(task.created_at) }))
       .sort((a, b) => {
         const dateA = new Date(a.created_at);
@@ -24,7 +25,11 @@ export default function Home() {
       });
   }
 
-  const orderTaksByDate = sortByDate(task)
+  const orderedTasksByDate = sortByDate(task)
+
+  const filteredTaskByStatus = useMemo(() => {
+    return orderedTasksByDate.filter((FilteredList) => FilteredList.status.includes(filterStatus))
+  }, [orderedTasksByDate])
 
   return (
     <>
@@ -33,9 +38,7 @@ export default function Home() {
       <TaskFilter />
 
       <TaskList>
-
-
-        {orderTaksByDate.map((taskItem) => {
+        {filteredTaskByStatus.map((taskItem) => {
           return (
             <TaskCard
               key={taskItem.id}
@@ -47,7 +50,6 @@ export default function Home() {
             />
           )
         })}
-
       </TaskList>
 
     </>

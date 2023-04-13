@@ -11,6 +11,8 @@ export interface Task {
 interface TraskContextType {
   task: Task[];
   setTask: Dispatch<SetStateAction<Task[]>>;
+  filterStatus: string;
+  setFilterStatus: Dispatch<SetStateAction<string>>;
 }
 
 interface taskProviderProps {
@@ -21,13 +23,14 @@ export const TaskContext = createContext({} as TraskContextType)
 
 export function TaskProvider({ children }: taskProviderProps) {
   const [task, setTask] = useState<Task[]>([])
-
-
+  const [filterStatus, setFilterStatus] = useState("");
 
   return (
     <TaskContext.Provider value={{
       task,
       setTask,
+      filterStatus,
+      setFilterStatus
     }}>
       {children}
     </TaskContext.Provider>
