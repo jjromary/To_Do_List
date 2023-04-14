@@ -21,6 +21,7 @@ export default function TaskFilter() {
         {filterStatus === '' ? 'Filtre suas tarefas por status!' : 'Filtrando suas tarefas por:'}
 
         <span className="text-lg ml-2 flex items-center max-[425px]:text-sm">
+
           <StatusTask currentState={filterStatus} />
         </span>
 
