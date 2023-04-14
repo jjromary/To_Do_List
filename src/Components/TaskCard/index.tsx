@@ -20,7 +20,7 @@ export default function TaskCard({ id, title, created_at, description, status }:
 
 
   const goToTaskPage = () => {
-    navigate('/task')
+    navigate(`/task/${id}`)
   }
 
   return (
