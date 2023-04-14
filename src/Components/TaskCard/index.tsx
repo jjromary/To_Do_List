@@ -14,7 +14,6 @@ export default function TaskCard({ id, title, created_at, description, status }:
   const navigate = useNavigate()
   const localtion = useLocation()
 
-
   const goToTaskPage = () => {
     navigate(`/task/${id}`)
   }
@@ -55,7 +54,7 @@ export default function TaskCard({ id, title, created_at, description, status }:
       <span className="h-auto overflow-y-auto mt-4 text-sm border-t-2 pt-4 break-words">
         {description}
       </span>
-
     </div>
+
   )
 }

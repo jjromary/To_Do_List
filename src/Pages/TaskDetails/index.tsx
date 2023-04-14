@@ -1,6 +1,7 @@
 import moment from "moment";
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Button from "../../Components/Button";
 import TaskCard from "../../Components/TaskCard";
 import { TaskContext } from "../../Contexts/TasksContext";
 
@@ -8,10 +9,12 @@ export default function TaskDetails() {
 
   const { task, setTask } = useContext(TaskContext)
   const { id } = useParams()
+  const navigate = useNavigate()
+
 
 
   const dateFormat = (newDate: string) => {
-    newDate = moment().locale('pt-br').format('DD/MM/YYYY')
+    newDate = moment().locale('pt-br').format('DD/MM/YYYY ')
 
     return newDate
   }
@@ -25,12 +28,18 @@ export default function TaskDetails() {
 
   const getTaskById = task.filter((taskDetails) => taskDetails.id === id)
 
+  const goToHome = () => {
+    navigate('/')
+
+  }
+
   useEffect(() => {
     recoverTasksLocalStorage()
   }, [])
 
   return (
-    <div className="container h-screen flex items-center flex-col justify-center">
+    <div className="container h-[600px] mt-16 flex items-center flex-col justify-center gap-8">
+
 
       {getTaskById.map((onlyTask) => {
         return (
@@ -42,7 +51,13 @@ export default function TaskDetails() {
           />
         )
       })}
-
+      <div className="w-9/12 flex items-center gap-4">
+        <Button
+          name="Voltar"
+          type="button"
+          onClick={() => goToHome()}
+        />
+      </div>
     </div>
   )
 }
