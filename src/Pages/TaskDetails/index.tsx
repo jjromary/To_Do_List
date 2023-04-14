@@ -1,12 +1,14 @@
 import moment from "moment";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import TaskCard from "../../Components/TaskCard";
 import { TaskContext } from "../../Contexts/TasksContext";
 
 export default function TaskDetails() {
-  const { task } = useContext(TaskContext)
+
+  const { task, setTask } = useContext(TaskContext)
   const { id } = useParams()
+
 
   const dateFormat = (newDate: string) => {
     newDate = moment().locale('pt-br').format('DD/MM/YYYY')
@@ -14,10 +16,21 @@ export default function TaskDetails() {
     return newDate
   }
 
+  const recoverTasksLocalStorage = () => {
+    const recover = localStorage.getItem('keyTask')
+    const recoverToJson = JSON.parse(recover!)
+
+    setTask(recoverToJson)
+  }
+
   const getTaskById = task.filter((taskDetails) => taskDetails.id === id)
 
+  useEffect(() => {
+    recoverTasksLocalStorage()
+  }, [])
+
   return (
-    <div className="container h-screen flex items-center justify-center">
+    <div className="container h-screen flex items-center flex-col justify-center">
 
       {getTaskById.map((onlyTask) => {
         return (
@@ -29,6 +42,7 @@ export default function TaskDetails() {
           />
         )
       })}
+
     </div>
   )
 }

@@ -1,7 +1,5 @@
 import { ArrowSquareOut } from "@phosphor-icons/react";
-import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { TaskContext } from "../../Contexts/TasksContext";
 import StatusTask from "../StatusTask";
 
 interface TaskCardprops {
@@ -13,8 +11,6 @@ interface TaskCardprops {
 }
 
 export default function TaskCard({ id, title, created_at, description, status }: TaskCardprops) {
-  const { filterStatus } = useContext(TaskContext)
-
   const navigate = useNavigate()
   const localtion = useLocation()
 
