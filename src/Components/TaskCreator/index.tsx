@@ -20,7 +20,7 @@ const newTaskValidationSchema = zod.object({
 type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
 export default function TaskCreator() {
-  const { task, setTask } = useContext(TaskContext)
+  const { task, setTask, setFilterStatus } = useContext(TaskContext)
 
   const handleCreateNewTask = (data: newPostFormData) => {
 
@@ -28,6 +28,7 @@ export default function TaskCreator() {
     data.id = uuidv4()
 
     setTask([...task, data])
+    setFilterStatus('')
   }
 
   const saveTaskLocalStorage = () => {
@@ -84,6 +85,7 @@ export default function TaskCreator() {
             Título
           </label>
           <input
+            tabIndex={0}
             className="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 "
             {...register('title')}
           />
@@ -92,6 +94,8 @@ export default function TaskCreator() {
             Descrição
           </label>
           <textarea
+            tabIndex={0}
+
             className="appearance-none resize-none border rounded-lg w-full py-2 px-3 text-gray-700"
             {...register('description')}
           />
@@ -100,6 +104,7 @@ export default function TaskCreator() {
             Status
           </label>
           <select
+            tabIndex={0}
             className="w-full h-10 rounded-lg text-gray-700 border bg-inherit"
             {...register('status')}
           >
