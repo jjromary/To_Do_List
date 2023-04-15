@@ -10,7 +10,7 @@ export default function Header() {
           "Lista de Tarefas"
           :
           <div className="w full flex items-center justify-end ">
-            Aqui está sua tarefa!
+            Aqui está sua tarefa! Atualize as informações ou exclua a tarefa caso ela não seja mais útil!
           </div>
         }
       </h1>

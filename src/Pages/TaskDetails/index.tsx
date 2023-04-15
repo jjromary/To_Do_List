@@ -44,6 +44,8 @@ export default function TaskDetails() {
       {getTaskById.map((onlyTask) => {
         return (
           <TaskCard
+            id={onlyTask.id}
+            key={onlyTask.id}
             title={onlyTask.title}
             description={onlyTask.description}
             status={onlyTask.status}

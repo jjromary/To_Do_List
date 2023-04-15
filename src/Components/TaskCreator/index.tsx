@@ -29,7 +29,6 @@ export default function TaskCreator() {
     navigate(`/task/${id}`)
   }
 
-
   const handleCreateNewTask = (data: newPostFormData) => {
 
     data.created_at = moment().format();
