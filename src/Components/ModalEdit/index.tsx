@@ -29,7 +29,6 @@ type editFormData = zod.infer<typeof editTaskValidationSchema>
 Modal.setAppElement('#root')
 
 export default function ModalEdit({ isOpen, id, description, title, status, onRequestClose }: ModalEditProps) {
-  const [numberIndexTask, setNumberIndexTask] = useState(0)
   const [recoverArrayLocal, setRecoverArrayLocal] = useState<Task[]>([])
 
   const { task, setTask } = useContext(TaskContext)
@@ -110,8 +109,7 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
             Descrição
           </label>
           <textarea
-
-            className="appearance-none resize-none border rounded-lg w-full py-2 px-3 text-gray-700"
+            className="appearance-none h-32 resize-none border rounded-lg w-full py-2 px-3 text-gray-700"
             {...register('description')}
           />
 

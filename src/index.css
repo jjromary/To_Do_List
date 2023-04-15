@@ -39,7 +39,18 @@ button {
   width: 100%;
   padding: 16px;
   max-width: 660px;
-  height: auto;
+  height: 450px;
+  margin: 0 1.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 2px solid rgb(2 132 199);
+}
+
+.react-modal-delete-content {
+  width: 100%;
+  padding: 16px;
+  max-width: 660px;
+  height: 250px;
   margin: 0 1.5rem;
   background: #ffffff;
   border-radius: 8px;

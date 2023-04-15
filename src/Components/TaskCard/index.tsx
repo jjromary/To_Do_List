@@ -1,6 +1,7 @@
 import { ArrowSquareOut, Pencil, Trash } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import ModalDelete from "../ModalDelete";
 import ModalEdit from "../ModalEdit";
 import StatusTask from "../StatusTask";
 
@@ -14,12 +15,22 @@ interface TaskCardprops {
 
 export default function TaskCard({ id, title, created_at, description, status }: TaskCardprops) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
 
   const navigate = useNavigate()
   const localtion = useLocation()
 
   const goToTaskPage = () => {
     navigate(`/task/${id}`)
+  }
+
+  function handleOpenDeleteModal() {
+    setIsDeleteModalOpen(true)
+  }
+
+  function handleCloseDeleteModal() {
+    setIsDeleteModalOpen(false)
   }
 
   function handleOpenEditModal() {
@@ -60,16 +71,14 @@ export default function TaskCard({ id, title, created_at, description, status }:
                 <Pencil size={18} />
               </button>
 
-              <button onClick={goToTaskPage}>
+              <button onClick={handleOpenDeleteModal}>
                 <Trash size={18} />
               </button>
-              <button onClick={goToTaskPage}>
-                {localtion.pathname === '/' ?
+              {localtion.pathname === '/' &&
+                <button onClick={goToTaskPage}>
                   <ArrowSquareOut size={18} />
-                  :
-                  ""
-                }
-              </button>
+                </button>
+              }
               <ModalEdit
                 isOpen={isEditModalOpen}
                 onRequestClose={handleCloseEditModal}
@@ -78,6 +87,12 @@ export default function TaskCard({ id, title, created_at, description, status }:
                 title={title}
                 description={description}
 
+              />
+
+              <ModalDelete
+                isOpen={isDeleteModalOpen}
+                onRequestClose={handleCloseDeleteModal}
+                id={id}
               />
 
             </div>
