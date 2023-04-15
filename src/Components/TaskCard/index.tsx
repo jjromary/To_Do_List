@@ -1,11 +1,12 @@
-import { ArrowSquareOut } from "@phosphor-icons/react";
-import { useContext } from "react";
+import { ArrowSquareOut, Pencil, Trash } from "@phosphor-icons/react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { TaskContext } from "../../Contexts/TasksContext";
+import ModalDelete from "../ModalDelete";
+import ModalEdit from "../ModalEdit";
 import StatusTask from "../StatusTask";
 
 interface TaskCardprops {
-  id?: string;
+  id: string;
   title: string;
   description: string;
   status: string;
@@ -13,14 +14,31 @@ interface TaskCardprops {
 }
 
 export default function TaskCard({ id, title, created_at, description, status }: TaskCardprops) {
-  const { filterStatus } = useContext(TaskContext)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
 
   const navigate = useNavigate()
   const localtion = useLocation()
 
-
   const goToTaskPage = () => {
     navigate(`/task/${id}`)
+  }
+
+  function handleOpenDeleteModal() {
+    setIsDeleteModalOpen(true)
+  }
+
+  function handleCloseDeleteModal() {
+    setIsDeleteModalOpen(false)
+  }
+
+  function handleOpenEditModal() {
+    setIsEditModalOpen(true)
+  }
+
+  function handleCloseEditModal() {
+    setIsEditModalOpen(false)
   }
 
   return (
@@ -35,23 +53,52 @@ export default function TaskCard({ id, title, created_at, description, status }:
         </div>
 
         <div className="w-2/5 flex items-center justify-between max-[768px]:mt-4 max-[768px]:w-full ">
+
           <span className="w-32 h-6 flex items-center text-right text-sm capitalize pl-4 max-[768px]:pl-0 gap-4">
             <StatusTask currentState={status} />
           </span>
-          <span className="text-sm">
-            {created_at}
-          </span>
 
-          <div className="w-auto h-6 flex items-center max-[320px]:w-9">
-            <button onClick={goToTaskPage}>
-              {localtion.pathname === '/' ?
-                <ArrowSquareOut size={18} />
-                :
-                ""
+          <div className="w-20 flex flex-col items-center justify-between max-[320px]:w-auto">
+
+            <div>
+              <span className="text-sm">
+                {created_at}
+              </span>
+            </div>
+
+            <div className="w-full mt-1 flex items-center justify-between">
+              <button type="button" onClick={handleOpenEditModal}>
+                <Pencil size={18} />
+              </button>
+
+              <button onClick={handleOpenDeleteModal}>
+                <Trash size={18} />
+              </button>
+              {localtion.pathname === '/' &&
+                <button onClick={goToTaskPage}>
+                  <ArrowSquareOut size={18} />
+                </button>
               }
-            </button>
+              <ModalEdit
+                isOpen={isEditModalOpen}
+                onRequestClose={handleCloseEditModal}
+                id={id}
+                status={status}
+                title={title}
+                description={description}
+
+              />
+
+              <ModalDelete
+                isOpen={isDeleteModalOpen}
+                onRequestClose={handleCloseDeleteModal}
+                id={id}
+              />
+
+            </div>
 
           </div>
+
         </div>
 
       </div>
@@ -59,7 +106,7 @@ export default function TaskCard({ id, title, created_at, description, status }:
       <span className="h-auto overflow-y-auto mt-4 text-sm border-t-2 pt-4 break-words">
         {description}
       </span>
-
     </div>
+
   )
 }

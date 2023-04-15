@@ -29,7 +29,7 @@ export default function Home() {
 
   const filteredTaskByStatus = useMemo(() => {
     return orderedTasksByDate.filter((FilteredList) => FilteredList.status.includes(filterStatus))
-  }, [orderedTasksByDate])
+  }, [orderedTasksByDate, task])
 
   return (
     <>

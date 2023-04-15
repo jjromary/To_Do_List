@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import * as zod from 'zod';
 import { TaskContext } from '../../Contexts/TasksContext';
@@ -20,7 +21,13 @@ const newTaskValidationSchema = zod.object({
 type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
 export default function TaskCreator() {
+  const [idTask, setIdTask] = useState('')
   const { task, setTask, setFilterStatus } = useContext(TaskContext)
+  const navigate = useNavigate()
+
+  const goToTaskPage = (id: string) => {
+    navigate(`/task/${id}`)
+  }
 
   const handleCreateNewTask = (data: newPostFormData) => {
 
@@ -29,6 +36,7 @@ export default function TaskCreator() {
 
     setTask([...task, data])
     setFilterStatus('')
+    setIdTask(data.id)
   }
 
   const saveTaskLocalStorage = () => {
@@ -69,6 +77,8 @@ export default function TaskCreator() {
         created_at: '',
       });
       saveTaskLocalStorage()
+      goToTaskPage(idTask)
+
     }
   }, [formState, reset]);
 
