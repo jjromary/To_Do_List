@@ -13,7 +13,7 @@ const newTaskValidationSchema = zod.object({
   id: zod.string(),
   title: zod.string().min(3, 'Título precisa ter no mínimo 3 caracteres'),
   description: zod.string(),
-  status: zod.string(),
+  status: zod.string().nonempty(' Selecione o status da tarefa'),
   created_at: zod.string()
 })
 
@@ -22,7 +22,8 @@ type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
 export default function TaskCreator() {
   const [idTask, setIdTask] = useState('')
-  const { task, setTask, setFilterStatus } = useContext(TaskContext)
+
+  const { task, setTask, setFilterStatus, updateTask } = useContext(TaskContext)
   const navigate = useNavigate()
 
   const goToTaskPage = (id: string) => {
@@ -30,7 +31,6 @@ export default function TaskCreator() {
   }
 
   const handleCreateNewTask = (data: newPostFormData) => {
-
     data.created_at = moment().format();
     data.id = uuidv4()
 
@@ -65,7 +65,7 @@ export default function TaskCreator() {
     if (localStorage.getItem('keyTask')) {
       recoverTasksLocalStorage()
     }
-  }, [])
+  }, [updateTask])
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
@@ -93,12 +93,16 @@ export default function TaskCreator() {
 
           <label className="mt-4 text-gray-700 text-sm font-bold mb-2">
             Título
+            <div className='text-red-600 text-sm'>
+              {formState.errors.title?.message}
+            </div>
           </label>
           <input
             tabIndex={0}
             className="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 "
             {...register('title')}
           />
+
 
           <label className="mt-4 text-gray-700 text-sm font-bold mb-2">
             Descrição
@@ -112,6 +116,9 @@ export default function TaskCreator() {
 
           <label className="mt-4 text-gray-700 text-sm font-bold mb-2">
             Status
+            <div className='text-red-600 text-sm'>
+              {formState.errors.status?.message}
+            </div>
           </label>
           <select
             tabIndex={0}
@@ -122,6 +129,7 @@ export default function TaskCreator() {
             <option value="pendente">Pendente</option>
             <option value="concluido">Concluído</option>
           </select>
+
 
 
           <div className="w-full flex items-center justify-center mt-4">

@@ -30,7 +30,6 @@ export default function TaskDetails() {
 
   const goToHome = () => {
     navigate('/')
-
   }
 
   useEffect(() => {
@@ -40,19 +39,19 @@ export default function TaskDetails() {
   return (
     <div className="container h-[600px] mt-16 flex items-center flex-col justify-center gap-8">
 
-
-      {getTaskById.map((onlyTask) => {
+      {getTaskById.map((onlyOneTask) => {
         return (
           <TaskCard
-            id={onlyTask.id}
-            key={onlyTask.id}
-            title={onlyTask.title}
-            description={onlyTask.description}
-            status={onlyTask.status}
-            created_at={dateFormat(String(onlyTask.created_at))}
+            id={onlyOneTask.id}
+            key={onlyOneTask.id}
+            title={onlyOneTask.title}
+            description={onlyOneTask.description}
+            status={onlyOneTask.status}
+            created_at={dateFormat(String(onlyOneTask.created_at))}
           />
         )
       })}
+
       <div className="w-9/12 flex items-center gap-4">
         <Button
           name="Voltar"

@@ -31,8 +31,8 @@ Modal.setAppElement('#root')
 export default function ModalEdit({ isOpen, id, description, title, status, onRequestClose }: ModalEditProps) {
   const [recoverArrayLocal, setRecoverArrayLocal] = useState<Task[]>([])
 
-  const { task, setTask } = useContext(TaskContext)
-  const refresh = useNavigate();
+  const { task, setUpdateTask, updateTask } = useContext(TaskContext)
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: zodResolver(editTaskValidationSchema),
@@ -43,15 +43,16 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
     },
   })
 
-  const refreshPage = () => {
-    refresh(0);
-  }
-
   const recoverTasksLocalStorage = () => {
     const recover = localStorage.getItem('keyTask')
     const recoverToJson = JSON.parse(recover!)
 
     setRecoverArrayLocal(recoverToJson)
+  }
+
+
+  const updateTaksList = () => {
+    setUpdateTask(updateTask + 1);
   }
 
   const editTask = (id: string, title: string, description: string, status: string) => {
@@ -72,13 +73,15 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
       localStorage.setItem('keyTask', JSON.stringify(recoverArrayLocal));
     }
 
+    updateTaksList()
+
   }
 
   const handleEditTask = (data: editFormData) => {
     editTask(id, data.title, data.description, data.status)
 
     onRequestClose()
-    refreshPage()
+    // refreshPage()
   }
 
   useEffect(() => {

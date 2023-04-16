@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
-import { Task } from '../../Contexts/TasksContext';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Task, TaskContext } from '../../Contexts/TasksContext';
 import Button from '../Button';
 
 interface ModalDeleteProps {
@@ -13,10 +13,15 @@ interface ModalDeleteProps {
 
 export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteProps) {
   const [recoverArrayLocal, setRecoverArrayLocal] = useState<Task[]>([])
-  const refresh = useNavigate();
 
-  const refreshPage = () => {
-    refresh(0);
+  const { setUpdateTask, updateTask } = useContext(TaskContext)
+
+
+  const navigate = useNavigate();
+  const localtion = useLocation()
+
+  const updateTaksList = () => {
+    setUpdateTask(updateTask + 1);
   }
 
   const recoverTasksLocalStorage = () => {
@@ -34,11 +39,19 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
       recoverArrayLocal.splice(numberIndex, 1);
       localStorage.setItem('keyTask', JSON.stringify(recoverArrayLocal));
     }
-    refreshPage()
+
+    if (localtion.pathname === `/task/${id}`) {
+      navigate('/')
+    }
+
+    updateTaksList()
+    onRequestClose()
+
   }
 
   useEffect(() => {
     recoverTasksLocalStorage()
+
   }, [])
 
   return (
