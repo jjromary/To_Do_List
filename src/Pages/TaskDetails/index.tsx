@@ -1,9 +1,9 @@
-import moment from "moment";
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../Components/Button";
 import TaskCard from "../../Components/TaskCard";
 import { TaskContext } from "../../Contexts/TasksContext";
+import useFormatDate from "../../Hooks/useFormatDate";
 import useRecover from "../../Hooks/useRecover";
 
 export default function TaskDetails() {
@@ -13,12 +13,6 @@ export default function TaskDetails() {
   const navigate = useNavigate()
 
   const { task, setTask, updateTask } = useContext(TaskContext)
-
-  const dateFormat = (newDate: string) => {
-    newDate = moment().locale('pt-br').format('DD/MM/YYYY ')
-
-    return newDate
-  }
 
   const getTaskById = task.filter((taskDetails) => taskDetails.id === id)
 
@@ -42,7 +36,7 @@ export default function TaskDetails() {
             title={onlyOneTask.title}
             description={onlyOneTask.description}
             status={onlyOneTask.status}
-            created_at={dateFormat(String(onlyOneTask.created_at))}
+            created_at={useFormatDate(String(onlyOneTask.created_at))}
           />
         )
       })}

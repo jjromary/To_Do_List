@@ -1,20 +1,14 @@
-import moment from "moment";
 import { useContext, useMemo } from "react";
 import TaskCard from "../../Components/TaskCard";
 import TaskCreator from "../../Components/TaskCreator";
 import { Task, TaskContext } from "../../Contexts/TasksContext";
+import useFormatDate from "../../Hooks/useFormatDate";
 import TaskFilter from "./components/TaskFilter";
 import TaskList from "./components/TaskList";
 
 
 export default function Home() {
   const { task, filterStatus } = useContext(TaskContext)
-
-  const dateFormat = (newDate: string) => {
-    newDate = moment().locale('pt-br').format('DD/MM/YYYY')
-
-    return newDate
-  }
 
   const sortByDate = (tasks: Task[]) => {
     return tasks.map(task => ({ ...task, created_at: new Date(task.created_at) }))
@@ -46,7 +40,7 @@ export default function Home() {
               title={taskItem.title}
               description={taskItem.description}
               status={taskItem.status}
-              created_at={dateFormat(String(taskItem.created_at))}
+              created_at={useFormatDate(String(taskItem.created_at))}
             />
           )
         })}
