@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import * as zod from 'zod';
 import { Task, TaskContext } from '../../Contexts/TasksContext';
+import useRecover from '../../Hooks/useRecover';
 import Button from '../Button';
 
 
@@ -31,6 +32,8 @@ Modal.setAppElement('#root')
 export default function ModalEdit({ isOpen, id, description, title, status, onRequestClose }: ModalEditProps) {
   const [recoverArrayLocal, setRecoverArrayLocal] = useState<Task[]>([])
 
+  const { recoverTasksToLocal } = useRecover()
+
   const { task, setUpdateTask, updateTask } = useContext(TaskContext)
   const navigate = useNavigate();
 
@@ -42,14 +45,6 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
       status: status,
     },
   })
-
-  const recoverTasksLocalStorage = () => {
-    const recover = localStorage.getItem('keyTask')
-    const recoverToJson = JSON.parse(recover!)
-
-    setRecoverArrayLocal(recoverToJson)
-  }
-
 
   const updateTaksList = () => {
     setUpdateTask(updateTask + 1);
@@ -85,7 +80,7 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
   }
 
   useEffect(() => {
-    recoverTasksLocalStorage()
+    setRecoverArrayLocal(recoverTasksToLocal)
   }, [])
 
 

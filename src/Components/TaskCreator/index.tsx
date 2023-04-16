@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import * as zod from 'zod';
 import { TaskContext } from '../../Contexts/TasksContext';
+import useRecover from '../../Hooks/useRecover';
 import Button from "../Button";
 
 const newTaskValidationSchema = zod.object({
@@ -22,6 +23,8 @@ type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
 export default function TaskCreator() {
   const [idTask, setIdTask] = useState('')
+
+  const { recoverTasksToLocal } = useRecover()
 
   const { task, setTask, setFilterStatus, updateTask } = useContext(TaskContext)
   const navigate = useNavigate()
@@ -43,13 +46,6 @@ export default function TaskCreator() {
     localStorage.setItem('keyTask', JSON.stringify(task));
   }
 
-  const recoverTasksLocalStorage = () => {
-    const recover = localStorage.getItem('keyTask')
-    const recoverToJson = JSON.parse(recover!)
-
-    setTask(recoverToJson)
-  }
-
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: zodResolver(newTaskValidationSchema),
     defaultValues: {
@@ -63,7 +59,7 @@ export default function TaskCreator() {
 
   useEffect(() => {
     if (localStorage.getItem('keyTask')) {
-      recoverTasksLocalStorage()
+      setTask(recoverTasksToLocal)
     }
   }, [updateTask])
 

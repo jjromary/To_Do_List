@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Task, TaskContext } from '../../Contexts/TasksContext';
+import useRecover from '../../Hooks/useRecover';
 import Button from '../Button';
 
 interface ModalDeleteProps {
@@ -14,21 +15,15 @@ interface ModalDeleteProps {
 export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteProps) {
   const [recoverArrayLocal, setRecoverArrayLocal] = useState<Task[]>([])
 
-  const { setUpdateTask, updateTask } = useContext(TaskContext)
+  const { recoverTasksToLocal } = useRecover()
 
+  const { setUpdateTask, updateTask } = useContext(TaskContext)
 
   const navigate = useNavigate();
   const localtion = useLocation()
 
   const updateTaksList = () => {
     setUpdateTask(updateTask + 1);
-  }
-
-  const recoverTasksLocalStorage = () => {
-    const recover = localStorage.getItem('keyTask')
-    const recoverToJson = JSON.parse(recover!)
-
-    setRecoverArrayLocal(recoverToJson)
   }
 
   const handleDeleteTask = () => {
@@ -50,8 +45,7 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
   }
 
   useEffect(() => {
-    recoverTasksLocalStorage()
-
+    setRecoverArrayLocal(recoverTasksToLocal)
   }, [])
 
   return (
