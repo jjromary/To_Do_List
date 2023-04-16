@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Task, TaskContext } from '../../Contexts/TasksContext';
 import useRecover from '../../Hooks/useRecover';
 import Button from '../Button';
@@ -41,7 +42,7 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
 
     updateTaksList()
     onRequestClose()
-
+    toast.success("Task deletada com sucesso!")
   }
 
   useEffect(() => {

@@ -16,17 +16,22 @@ export default function TaskDetails() {
 
   const getTaskById = task.filter((taskDetails) => taskDetails.id === id)
 
+
   const goToHome = () => {
     navigate('/')
   }
 
   useEffect(() => {
     setTask(recoverTasksToLocal)
-
   }, [updateTask])
 
+
   return (
-    <div className="container h-[600px] mt-16 flex items-center flex-col justify-center gap-8">
+    <div className="container h-[600px] flex items-center flex-col justify-center gap-8">
+
+      {getTaskById.length <= 0 &&
+        <span>Task inexistente!</span>
+      }
 
       {getTaskById.map((onlyOneTask) => {
         return (

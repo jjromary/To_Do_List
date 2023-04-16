@@ -4,6 +4,7 @@ import 'moment/locale/pt-br';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as zod from 'zod';
 import { TaskContext } from '../../Contexts/TasksContext';
@@ -15,9 +16,8 @@ const newTaskValidationSchema = zod.object({
   title: zod.string().min(3, 'Título precisa ter no mínimo 3 caracteres'),
   description: zod.string(),
   status: zod.string().nonempty(' Selecione o status da tarefa'),
-  created_at: zod.string()
+  created_at: zod.string(),
 })
-
 
 type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
@@ -40,6 +40,8 @@ export default function TaskCreator() {
     setTask([...task, data])
     setFilterStatus('')
     setIdTask(data.id)
+    toast.success("Task criada com sucesso!")
+
   }
 
   const saveTaskLocalStorage = () => {
@@ -74,7 +76,6 @@ export default function TaskCreator() {
       });
       saveTaskLocalStorage()
       goToTaskPage(idTask)
-
     }
   }, [formState, reset]);
 

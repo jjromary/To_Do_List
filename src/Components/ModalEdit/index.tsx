@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as zod from 'zod';
 import { Task, TaskContext } from '../../Contexts/TasksContext';
 import useRecover from '../../Hooks/useRecover';
@@ -76,7 +77,8 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
     editTask(id, data.title, data.description, data.status)
 
     onRequestClose()
-    // refreshPage()
+    toast.success("Task editada com sucesso!")
+
   }
 
   useEffect(() => {
