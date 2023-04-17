@@ -1,28 +1,32 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as zod from 'zod';
 import { TaskContext } from '../../Contexts/TasksContext';
+import useRecover from '../../Hooks/useRecover';
 import Button from "../Button";
 
 const newTaskValidationSchema = zod.object({
   id: zod.string(),
   title: zod.string().min(3, 'Título precisa ter no mínimo 3 caracteres'),
   description: zod.string(),
-  status: zod.string(),
-  created_at: zod.string()
+  status: zod.string().nonempty(' Selecione o status da tarefa'),
+  created_at: zod.string(),
 })
-
 
 type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
 export default function TaskCreator() {
-  const [idTask, setIdTask] = useState('')
-  const { task, setTask, setFilterStatus } = useContext(TaskContext)
+  const idTaskRef = useRef('')
+
+  const { recoverTasksToLocal } = useRecover()
+
+  const { task, setTask, setFilterStatus, updateTask } = useContext(TaskContext)
   const navigate = useNavigate()
 
   const goToTaskPage = (id: string) => {
@@ -30,24 +34,24 @@ export default function TaskCreator() {
   }
 
   const handleCreateNewTask = (data: newPostFormData) => {
+    const newData = {
+      ...data,
+      created_at: moment().format(),
+      id: uuidv4(),
+    }
 
-    data.created_at = moment().format();
-    data.id = uuidv4()
+    // data.created_at = moment().format();
+    // data.id = uuidv4()
 
-    setTask([...task, data])
+    setTask([...task, newData])
     setFilterStatus('')
-    setIdTask(data.id)
+    idTaskRef.current = newData.id
+
+    toast.success("Tarefa CRIADA com sucesso!")
   }
 
   const saveTaskLocalStorage = () => {
     localStorage.setItem('keyTask', JSON.stringify(task));
-  }
-
-  const recoverTasksLocalStorage = () => {
-    const recover = localStorage.getItem('keyTask')
-    const recoverToJson = JSON.parse(recover!)
-
-    setTask(recoverToJson)
   }
 
   const { register, handleSubmit, formState, reset } = useForm({
@@ -63,9 +67,9 @@ export default function TaskCreator() {
 
   useEffect(() => {
     if (localStorage.getItem('keyTask')) {
-      recoverTasksLocalStorage()
+      setTask(recoverTasksToLocal)
     }
-  }, [])
+  }, [updateTask])
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
@@ -77,8 +81,7 @@ export default function TaskCreator() {
         created_at: '',
       });
       saveTaskLocalStorage()
-      goToTaskPage(idTask)
-
+      goToTaskPage(idTaskRef.current)
     }
   }, [formState, reset]);
 
@@ -93,12 +96,16 @@ export default function TaskCreator() {
 
           <label className="mt-4 text-gray-700 text-sm font-bold mb-2">
             Título
+            <div className='text-red-600 text-sm'>
+              {formState.errors.title?.message}
+            </div>
           </label>
           <input
             tabIndex={0}
             className="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 "
             {...register('title')}
           />
+
 
           <label className="mt-4 text-gray-700 text-sm font-bold mb-2">
             Descrição
@@ -112,6 +119,9 @@ export default function TaskCreator() {
 
           <label className="mt-4 text-gray-700 text-sm font-bold mb-2">
             Status
+            <div className='text-red-600 text-sm'>
+              {formState.errors.status?.message}
+            </div>
           </label>
           <select
             tabIndex={0}
@@ -122,6 +132,7 @@ export default function TaskCreator() {
             <option value="pendente">Pendente</option>
             <option value="concluido">Concluído</option>
           </select>
+
 
 
           <div className="w-full flex items-center justify-center mt-4">

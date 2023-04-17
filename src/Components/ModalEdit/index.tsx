@@ -3,8 +3,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as zod from 'zod';
 import { Task, TaskContext } from '../../Contexts/TasksContext';
+import useRecover from '../../Hooks/useRecover';
 import Button from '../Button';
 
 
@@ -31,8 +33,10 @@ Modal.setAppElement('#root')
 export default function ModalEdit({ isOpen, id, description, title, status, onRequestClose }: ModalEditProps) {
   const [recoverArrayLocal, setRecoverArrayLocal] = useState<Task[]>([])
 
-  const { task, setTask } = useContext(TaskContext)
-  const refresh = useNavigate();
+  const { recoverTasksToLocal } = useRecover()
+
+  const { task, setUpdateTask, updateTask } = useContext(TaskContext)
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: zodResolver(editTaskValidationSchema),
@@ -43,15 +47,8 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
     },
   })
 
-  const refreshPage = () => {
-    refresh(0);
-  }
-
-  const recoverTasksLocalStorage = () => {
-    const recover = localStorage.getItem('keyTask')
-    const recoverToJson = JSON.parse(recover!)
-
-    setRecoverArrayLocal(recoverToJson)
+  const updateTaskList = () => {
+    setUpdateTask(updateTask + 1);
   }
 
   const editTask = (id: string, title: string, description: string, status: string) => {
@@ -72,17 +69,20 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
       localStorage.setItem('keyTask', JSON.stringify(recoverArrayLocal));
     }
 
+    updateTaskList()
+
   }
 
   const handleEditTask = (data: editFormData) => {
     editTask(id, data.title, data.description, data.status)
 
     onRequestClose()
-    refreshPage()
+    toast.success("Tarefa EDITADA com sucesso!")
+
   }
 
   useEffect(() => {
-    recoverTasksLocalStorage()
+    setRecoverArrayLocal(recoverTasksToLocal)
   }, [])
 
 

@@ -19,7 +19,7 @@ export default function TaskCard({ id, title, created_at, description, status }:
 
 
   const navigate = useNavigate()
-  const localtion = useLocation()
+  const location = useLocation()
 
   const goToTaskPage = () => {
     navigate(`/task/${id}`)
@@ -74,7 +74,7 @@ export default function TaskCard({ id, title, created_at, description, status }:
               <button onClick={handleOpenDeleteModal}>
                 <Trash size={18} />
               </button>
-              {localtion.pathname === '/' &&
+              {location.pathname === '/' &&
                 <button onClick={goToTaskPage}>
                   <ArrowSquareOut size={18} />
                 </button>
