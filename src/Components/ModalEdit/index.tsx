@@ -47,7 +47,7 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
     },
   })
 
-  const updateTaksList = () => {
+  const updateTaskList = () => {
     setUpdateTask(updateTask + 1);
   }
 
@@ -69,7 +69,7 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
       localStorage.setItem('keyTask', JSON.stringify(recoverArrayLocal));
     }
 
-    updateTaksList()
+    updateTaskList()
 
   }
 

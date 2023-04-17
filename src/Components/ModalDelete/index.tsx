@@ -18,13 +18,13 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
 
   const { recoverTasksToLocal } = useRecover()
 
-  const { setUpdateTask, updateTask } = useContext(TaskContext)
+  const { setUpdateTask } = useContext(TaskContext)
 
   const navigate = useNavigate();
-  const localtion = useLocation()
+  const location = useLocation()
 
-  const updateTaksList = () => {
-    setUpdateTask(updateTask + 1);
+  const updateTaskList = () => {
+    setUpdateTask(prev => prev + 1);
   }
 
   const handleDeleteTask = () => {
@@ -36,18 +36,18 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
       localStorage.setItem('keyTask', JSON.stringify(recoverArrayLocal));
     }
 
-    if (localtion.pathname === `/task/${id}`) {
+    if (location.pathname === `/task/${id}`) {
       navigate('/')
     }
 
-    updateTaksList()
+    updateTaskList()
     onRequestClose()
     toast.success("Task deletada com sucesso!")
   }
 
   useEffect(() => {
     setRecoverArrayLocal(recoverTasksToLocal)
-  }, [])
+  }, [handleDeleteTask])
 
   return (
     <Modal
@@ -59,19 +59,21 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
       <div className='h-full flex flex-col items-center'>
 
         <span className="w-full flex items-center justify-center mt-4 text-gray-700 text-xl font-bold ">
-          Você realmente deja deletar esta terefa?
+          Tem certeza de que deseja excluir esta tarefa?
         </span>
 
         <div className='w-full h-full flex flex-col justify-center gap-8' >
           <Button
             name='Sim'
             type='button'
+            aria-label='Sim'
             onClick={handleDeleteTask}
           />
           <Button
             name='Não'
             type='button'
             status='cancel'
+            aria-label='Não'
             onClick={onRequestClose}
           />
         </div>

@@ -5,6 +5,8 @@ import TaskCard from "../../Components/TaskCard";
 import { TaskContext } from "../../Contexts/TasksContext";
 import useFormatDate from "../../Hooks/useFormatDate";
 import useRecover from "../../Hooks/useRecover";
+import notExisting from '../../assets/notExisting.gif';
+
 
 export default function TaskDetails() {
 
@@ -15,7 +17,6 @@ export default function TaskDetails() {
   const { task, setTask, updateTask } = useContext(TaskContext)
 
   const getTaskById = task.filter((taskDetails) => taskDetails.id === id)
-
 
   const goToHome = () => {
     navigate('/')
@@ -30,7 +31,14 @@ export default function TaskDetails() {
     <div className="container h-[600px] flex items-center flex-col justify-center gap-8">
 
       {getTaskById.length <= 0 &&
-        <span>Task inexistente!</span>
+        <>
+          <span className="w-full flex justify-center text-5xl font-bold text-sky-950 max-[425px]:text-4xl mt-8" >
+            Essa Task  não existe!
+          </span>
+          <div className="mt-4">
+            <img src={notExisting} alt="gif not exist task" width={300} height={300} />
+          </div>
+        </>
       }
 
       {getTaskById.map((onlyOneTask) => {

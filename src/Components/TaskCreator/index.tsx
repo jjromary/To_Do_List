@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -22,7 +22,7 @@ const newTaskValidationSchema = zod.object({
 type newPostFormData = zod.infer<typeof newTaskValidationSchema>
 
 export default function TaskCreator() {
-  const [idTask, setIdTask] = useState('')
+  const idTaskRef = useRef('')
 
   const { recoverTasksToLocal } = useRecover()
 
@@ -34,14 +34,20 @@ export default function TaskCreator() {
   }
 
   const handleCreateNewTask = (data: newPostFormData) => {
-    data.created_at = moment().format();
-    data.id = uuidv4()
+    const newData = {
+      ...data,
+      created_at: moment().format(),
+      id: uuidv4(),
+    }
 
-    setTask([...task, data])
+    // data.created_at = moment().format();
+    // data.id = uuidv4()
+
+    setTask([...task, newData])
     setFilterStatus('')
-    setIdTask(data.id)
-    toast.success("Task criada com sucesso!")
+    idTaskRef.current = newData.id
 
+    toast.success("Task criada com sucesso!")
   }
 
   const saveTaskLocalStorage = () => {
@@ -75,7 +81,7 @@ export default function TaskCreator() {
         created_at: '',
       });
       saveTaskLocalStorage()
-      goToTaskPage(idTask)
+      goToTaskPage(idTaskRef.current)
     }
   }, [formState, reset]);
 
