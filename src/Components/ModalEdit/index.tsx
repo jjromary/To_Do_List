@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as zod from 'zod';
-import { Task, TaskContext } from '../../Contexts/TasksContext';
+import { TaskContext } from '../../Contexts/TasksContext';
 import useRecover from '../../Hooks/useRecover';
 import Button from '../Button';
 
@@ -31,7 +31,6 @@ type editFormData = zod.infer<typeof editTaskValidationSchema>
 Modal.setAppElement('#root')
 
 export default function ModalEdit({ isOpen, id, description, title, status, onRequestClose }: ModalEditProps) {
-  const [recoverArrayLocal, setRecoverArrayLocal] = useState<Task[]>([])
 
   const { recoverTasksToLocal } = useRecover()
 
@@ -64,9 +63,9 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
 
     const numberIndex = task.findIndex((foundIndex) => foundIndex.id === id)
 
-    if (recoverArrayLocal) {
-      recoverArrayLocal.splice(numberIndex, 1, editingTask[0]);
-      localStorage.setItem('keyTask', JSON.stringify(recoverArrayLocal));
+    if (recoverTasksToLocal) {
+      recoverTasksToLocal.splice(numberIndex, 1, editingTask[0]);
+      localStorage.setItem('keyTask', JSON.stringify(recoverTasksToLocal));
     }
 
     updateTaskList()
@@ -81,9 +80,9 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
 
   }
 
-  useEffect(() => {
-    setRecoverArrayLocal(recoverTasksToLocal)
-  }, [])
+  // useEffect(() => {
+  //   setRecoverArrayLocal(recoverTasksToLocal)
+  // }, [])
 
 
   return (

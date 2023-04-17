@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Modal from 'react-modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Task, TaskContext } from '../../Contexts/TasksContext';
+import { TaskContext } from '../../Contexts/TasksContext';
 import useRecover from '../../Hooks/useRecover';
 import Button from '../Button';
 
@@ -14,7 +14,6 @@ interface ModalDeleteProps {
 
 
 export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteProps) {
-  const [recoverArrayLocal, setRecoverArrayLocal] = useState<Task[]>([])
 
   const { recoverTasksToLocal } = useRecover()
 
@@ -29,11 +28,11 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
 
   const handleDeleteTask = () => {
 
-    const numberIndex = recoverArrayLocal.findIndex((foundIndex) => foundIndex.id === id)
+    const numberIndex = recoverTasksToLocal.findIndex((foundIndex) => foundIndex.id === id)
 
-    if (recoverArrayLocal) {
-      recoverArrayLocal.splice(numberIndex, 1);
-      localStorage.setItem('keyTask', JSON.stringify(recoverArrayLocal));
+    if (recoverTasksToLocal) {
+      recoverTasksToLocal.splice(numberIndex, 1);
+      localStorage.setItem('keyTask', JSON.stringify(recoverTasksToLocal));
     }
 
     if (location.pathname === `/task/${id}`) {
@@ -45,9 +44,6 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
     toast.success("Tarefa DELETADA com sucesso!")
   }
 
-  useEffect(() => {
-    setRecoverArrayLocal(recoverTasksToLocal)
-  }, [])
 
   return (
     <Modal

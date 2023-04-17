@@ -1,8 +1,11 @@
+import { Task } from "../Contexts/TasksContext";
+
 export default function useRecover() {
   const recover = localStorage.getItem("keyTask");
-  const recoverTasksToLocal = JSON.parse(recover!);
+  const recoverTasksToLocal: Task[] = JSON.parse(recover!);
 
   return {
     recoverTasksToLocal,
   };
 }
+
