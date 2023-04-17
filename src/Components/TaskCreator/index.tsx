@@ -94,7 +94,9 @@ export default function TaskCreator() {
         <div className="flex flex-col">
           <span className="text-lg" >Criar nova tarefa</span>
 
-          <label className="mt-4 text-gray-700 text-sm font-bold mb-2">
+          <label className="mt-4 text-gray-700 text-sm font-bold mb-2"
+            htmlFor='title'
+          >
             Título
             <div className='text-red-600 text-sm'>
               {formState.errors.title?.message}
@@ -102,17 +104,24 @@ export default function TaskCreator() {
           </label>
           <input
             tabIndex={0}
+            type='text'
+            aria-label="Título da Tarefa"
+            id='title'
             className="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 "
             {...register('title')}
           />
 
 
-          <label className="mt-4 text-gray-700 text-sm font-bold mb-2">
+          <label
+            className="mt-4 text-gray-700 text-sm font-bold mb-2"
+            htmlFor='description'
+          >
             Descrição
           </label>
           <textarea
             tabIndex={0}
-
+            id='description'
+            aria-label="Descrição da tarefa da Tarefa"
             className="appearance-none resize-none border rounded-lg w-full py-2 px-3 text-gray-700"
             {...register('description')}
           />
