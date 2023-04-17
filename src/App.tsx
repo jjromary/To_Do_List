@@ -10,7 +10,10 @@ export default function App() {
     <BrowserRouter>
       <TaskProvider>
         <Router />
-        <ToastContainer />
+        <ToastContainer
+          autoClose={3000}
+          closeOnClick
+        />
 
       </TaskProvider>
     </BrowserRouter>

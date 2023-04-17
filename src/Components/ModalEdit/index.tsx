@@ -77,7 +77,7 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
     editTask(id, data.title, data.description, data.status)
 
     onRequestClose()
-    toast.success("Task editada com sucesso!")
+    toast.success("Tarefa EDITADA com sucesso!")
 
   }
 

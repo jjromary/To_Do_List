@@ -47,7 +47,7 @@ export default function TaskCreator() {
     setFilterStatus('')
     idTaskRef.current = newData.id
 
-    toast.success("Task criada com sucesso!")
+    toast.success("Tarefa CRIADA com sucesso!")
   }
 
   const saveTaskLocalStorage = () => {

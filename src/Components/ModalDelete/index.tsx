@@ -42,12 +42,12 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
 
     updateTaskList()
     onRequestClose()
-    toast.success("Task deletada com sucesso!")
+    toast.success("Tarefa DELETADA com sucesso!")
   }
 
   useEffect(() => {
     setRecoverArrayLocal(recoverTasksToLocal)
-  }, [handleDeleteTask])
+  }, [])
 
   return (
     <Modal
