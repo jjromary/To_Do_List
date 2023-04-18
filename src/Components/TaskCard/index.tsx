@@ -75,7 +75,7 @@ export default function TaskCard({ id, title, created_at, description, status }:
                 <Trash size={18} />
               </button>
               {location.pathname === '/' &&
-                <button area-label="ir para página específica da tarefa" onClick={goToTaskPage}>
+                <button aria-label="ir para página específica da tarefa" onClick={goToTaskPage}>
                   <ArrowSquareOut size={18} />
                 </button>
               }
