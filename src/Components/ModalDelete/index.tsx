@@ -62,14 +62,14 @@ export default function ModalDelete({ id, isOpen, onRequestClose }: ModalDeleteP
           <Button
             name='Sim'
             type='button'
-            aria-label='Sim'
+            ariaLabel='Sim'
             onClick={handleDeleteTask}
           />
           <Button
             name='Não'
             type='button'
             status='cancel'
-            aria-label='Não'
+            ariaLabel='Não'
             onClick={onRequestClose}
           />
         </div>

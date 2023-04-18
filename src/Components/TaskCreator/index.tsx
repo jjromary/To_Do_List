@@ -148,6 +148,7 @@ export default function TaskCreator() {
             <Button
               name="Criar!"
               type="submit"
+              ariaLabel='criar uma tarefa'
             />
           </div>
 

@@ -59,6 +59,7 @@ export default function TaskDetails() {
           name="Voltar"
           type="button"
           onClick={() => goToHome()}
+          ariaLabel="voltar para a página Home"
         />
       </div>
     </div>

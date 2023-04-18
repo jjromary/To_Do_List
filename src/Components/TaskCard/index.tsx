@@ -67,15 +67,15 @@ export default function TaskCard({ id, title, created_at, description, status }:
             </div>
 
             <div className="w-full mt-1 flex items-center justify-between">
-              <button type="button" onClick={handleOpenEditModal}>
+              <button type="button" aria-label="editar uma tarefa" onClick={handleOpenEditModal}>
                 <Pencil size={18} />
               </button>
 
-              <button onClick={handleOpenDeleteModal}>
+              <button aria-label="excluir uma tarefa" onClick={handleOpenDeleteModal}>
                 <Trash size={18} />
               </button>
               {location.pathname === '/' &&
-                <button onClick={goToTaskPage}>
+                <button area-label="ir para página específica da tarefa" onClick={goToTaskPage}>
                   <ArrowSquareOut size={18} />
                 </button>
               }

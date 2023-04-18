@@ -130,6 +130,7 @@ export default function ModalEdit({ isOpen, id, description, title, status, onRe
           <Button
             name="Editar!"
             type="submit"
+            ariaLabel='editar a tarefa escolhida'
           />
 
         </div>

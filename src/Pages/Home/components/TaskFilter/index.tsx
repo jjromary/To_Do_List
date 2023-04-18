@@ -32,18 +32,21 @@ export default function TaskFilter() {
           name="Concluído"
           type="button"
           status='concluido'
+          ariaLabel="filtrar por tarefas concluídas"
           onClick={() => selectdStatusFilter('concluido')}
         />
         <Button
           name="Em andamento"
           type="button"
           status="andamento"
+          ariaLabel="filtrar por tarefas em andamento"
           onClick={() => selectdStatusFilter('andamento')}
         />
         <Button
           name="Pendente"
           type="button"
           status="pendente"
+          ariaLabel="filtrar por tarefas que estão com pendência"
           onClick={() => selectdStatusFilter('pendente')}
         />
       </div>
